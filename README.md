@@ -18,7 +18,7 @@ Open iterm and run
 nano ~/.p10k.zsh
 ~~~~
 
-Add bday to prompt elements
+Add btcprice to prompt elements
 ~~~~shell
 typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
   ... other elments ...
