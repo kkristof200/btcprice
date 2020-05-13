@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# IMPORTS
 from __future__ import print_function
 import json, os, time
 
@@ -16,31 +17,28 @@ REQUEST_TIMEOUT_SECONDS = 2.5
 CACHE_EXPIRE_SECONDS = 60*10
 ###########################################################
 
+# FUNCTIONS
 def get_json(url):
     return json.loads(urlopen(url, timeout=REQUEST_TIMEOUT_SECONDS).read().decode("utf-8"))
 
 def get_btc_price_str():
     return REPORT_CURRENCY_SYMBOL + get_json('https://api.coindesk.com/v1/bpi/currentprice.json')['bpi'][REPORT_CURRENCY_SHORT_NAME]['rate'].split('.')[0]
 
-splitter = '|'
-
+# FLOW
 try:
-    cache_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), '.btc_price_cache')
+    home_path = os.path.expanduser('~')
+    cache_path = os.path.join(home_path, '.btcprice')
 
-    if os.path.exists(cache_path):
+    if os.path.exists(cache_path) and int(time.time() - os.path.getmtime(cache_path)) < CACHE_EXPIRE_SECONDS:
         with open(cache_path, 'r') as f:
-            comps = f.read().strip().split(splitter)
-            ts = int(comps[0])
+            print(f.read())
 
-            if int(time.time()) - ts < CACHE_EXPIRE_SECONDS:
-                print(comps[1])
+            exit(0)
 
-                exit(0)
-    
     price_str = get_btc_price_str()
 
     with open(cache_path, 'w') as f:
-        f.write(str(int(time.time())) + splitter + price_str)
+        f.write(price_str)
 
     print(price_str)
 except Exception:
