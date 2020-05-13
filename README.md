@@ -9,7 +9,7 @@ cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice
 
 ## Usage
 ~~~~shell
-btcprice
+btcprice -c ['USD', 'GBP' or 'EUR'] # defaults to 'USD'
 ~~~~
 
 ## ADD TO POWERLEVEL10K AS PROMPT ELEMENT
