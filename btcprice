@@ -1,45 +1,63 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # IMPORTS
 from __future__ import print_function
-import json, os, time
+import json, os, time, argparse
 
 try:
     # For Python 3.0 and later
     from urllib.request import urlopen
 except ImportError:
-    # Fall back to Python 2's urllib2
+    # Fallback to Python 2's urllib2
     from urllib2 import urlopen
 
 ######################## CONSTANTS ########################
-REPORT_CURRENCY_SHORT_NAME = 'USD' # ['USD', 'GBP', 'EUR']
-REPORT_CURRENCY_SYMBOL = '$'
 REQUEST_TIMEOUT_SECONDS = 2.5
 CACHE_EXPIRE_SECONDS = 60*10
 ###########################################################
 
 # FUNCTIONS
 def get_json(url):
-    return json.loads(urlopen(url, timeout=REQUEST_TIMEOUT_SECONDS).read().decode("utf-8"))
+    return json.loads(urlopen(url, timeout=REQUEST_TIMEOUT_SECONDS).read())
 
-def get_btc_price_str():
-    return REPORT_CURRENCY_SYMBOL + get_json('https://api.coindesk.com/v1/bpi/currentprice.json')['bpi'][REPORT_CURRENCY_SHORT_NAME]['rate'].split('.')[0]
+def get_btc_price_str(currency):
+    return get_json('https://api.coindesk.com/v1/bpi/currentprice.json')['bpi'][currency.upper()]['rate'].split('.')[0]
+
+def print_price(currency_symbol, price_str):
+    print(currency_symbol + price_str)
+
+    exit(0)
+
+# READING ARGUMENTS
+parser = argparse.ArgumentParser()
+parser.add_argument('--currency', '-c', help="'USD', 'GBP' or 'EUR'", type=str, default='USD')
+args = parser.parse_args()
+
+report_currency=args.currency.lower()
+report_currency_symbol = {
+    'usd':'$',
+    'eur':'€',
+    'gbp':'£'
+}[report_currency]
 
 # FLOW
 try:
     home_path = os.path.expanduser('~')
-    cache_path = os.path.join(home_path, '.btcprice')
+    cache_folder_path = os.path.join(home_path, '.btcprice_cache')
+    cache_path = os.path.join(cache_folder_path, report_currency)
+
+    if not os.path.exists(cache_folder_path):
+        os.makedirs(cache_folder_path)
 
     if os.path.exists(cache_path) and int(time.time() - os.path.getmtime(cache_path)) < CACHE_EXPIRE_SECONDS:
         with open(cache_path, 'r') as f:
-            print(f.read())
+            print_price(report_currency_symbol, f.read())
 
-            exit(0)
-
-    price_str = get_btc_price_str()
+    price_str = get_btc_price_str(report_currency)
 
     with open(cache_path, 'w') as f:
         f.write(price_str)
 
-    print(price_str)
+    print_price(report_currency_symbol, price_str)
 except Exception:
     print('<ERROR>')
