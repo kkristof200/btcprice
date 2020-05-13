@@ -30,7 +30,7 @@ typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
 Add this function to the bottom
 ~~~~shell
 function prompt_btcprice() {
-  btcprice_str = $(btcprice)
+  btcprice_str=$(btcprice)
 
   if [ "$btcprice_str" != "<ERROR>" ]; then
     p10k segment -f 208 -i '' -t $btcprice_str
