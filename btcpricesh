@@ -1,0 +1,36 @@
+#!/bin/bash
+
+CACHE_PATH="$HOME/.btcpricesh"
+MAX_CACHE_AGE_SECONDS=600 # 10 min
+
+delete_cache() {
+    rm $CACHE_PATH
+}
+
+get_price_from_server() {
+    float_price=$(curl -s "https://api.coindesk.com/v1/bpi/currentprice.json" | jq '.bpi.USD.rate_float')
+    int_price=$(echo "$float_price/1" | bc)
+    int_price_k=$(echo "$int_price/1000" | bc)
+
+    price_str='$'$int_price_k","$(expr $int_price - $(expr $int_price_k \* 1000))
+
+    touch $CACHE_PATH
+    printf $price_str > $CACHE_PATH
+
+    echo $price_str
+}
+
+# FLOW
+if [ -f "$CACHE_PATH" ]; then
+    # CACHE_PATH EXISTS
+    cache_age_seconds=$(expr $(date +"%s") - $(date -r $CACHE_PATH +"%s"))
+
+    if [ "$cache_age_seconds" -gt "$MAX_CACHE_AGE_SECONDS" ]; then
+        delete_cache
+        get_price_from_server
+    else
+        echo "$(cat $CACHE_PATH)"
+    fi
+else
+    get_price_from_server
+fi
