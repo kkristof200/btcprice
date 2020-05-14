@@ -7,7 +7,7 @@ I strongly suggest btcpricesh over btcprice since it's way faster, but currently
 
 ### SPEED TESTS (btcpricesh v btcprice)
 ~~~~
-# Download new data
+# Download new data (this would vary based on your internet connection)
 btcpricesh
 real    0m0.170s
 user    0m0.054s
