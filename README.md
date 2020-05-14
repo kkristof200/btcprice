@@ -3,9 +3,9 @@
 ![screenshot](https://i.imgur.com/3jPwKR7.png)
 
 ## NOTE
-I strongly suggest btcpricesh over btcprice since it's way faster (pure shell > python), but currently it only supports usd as an output
+I strongly suggest btcpricesh over btcprice since it's way faster, but currently it only supports usd as a report currency and has an osx dependency(uses a private api, for checking internnet speed)
 
-### SPEED TESTS (btcprice v btcpricesh)
+### SPEED TESTS (btcpricesh v btcprice)
 ~~~~
 # Download new data
 btcpricesh
@@ -35,7 +35,6 @@ sys     0m0.055s
 # btcprice
 cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcprice && chmod u+x btcprice
 # btcpricesh
-brew install jq
 cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcpricesh && chmod u+x btcpricesh
 ~~~~
 
@@ -46,6 +45,8 @@ btcpricesh
 ~~~~
 
 ## ADD TO POWERLEVEL10K AS PROMPT ELEMENT
+To set up iterm with p10k, follow this [tutorial](https://gist.github.com/kevin-smets/8568070)
+
 Open iterm and run
 ~~~~shell
 nano ~/.p10k.zsh
@@ -89,3 +90,4 @@ source ~/.p10k.zsh
 
 ## Dependencies
 - python (for btcprice)
+- osx (for btcpricesh)
