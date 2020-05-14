@@ -5,7 +5,7 @@
 ## NOTE
 I strongly suggest btcpricesh over btcprice since it's way faster (pure shell > python), but currently it only supports usd as an output
 
-### SPEED TESTS
+### SPEED TESTS (btcprice v btcpricesh)
 ~~~~
 # Download new data
 btcpricesh
@@ -88,5 +88,5 @@ source ~/.p10k.zsh
 ~~~~
 
 ## Dependencies
-python (for btcprice)
-jq (for btcpriceesh)
+- python (for btcprice)
+- jq (for btcpriceesh)
