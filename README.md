@@ -35,6 +35,7 @@ sys     0m0.055s
 # btcprice
 cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcprice && chmod u+x btcprice
 # btcpricesh
+brew install jq
 cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcpricesh && chmod u+x btcpricesh
 ~~~~
 
@@ -87,4 +88,5 @@ source ~/.p10k.zsh
 ~~~~
 
 ## Dependencies
-python
+python (for btcprice)
+jq (for btcpriceesh)
