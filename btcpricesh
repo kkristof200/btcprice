@@ -19,13 +19,14 @@ check_network_speed() {
 get_price_from_server() {
     check_network_speed
 
-    float_price=$(curl -m 1 -s "https://api.coindesk.com/v1/bpi/currentprice.json" | jq '.bpi.USD.rate_float')
+    # Uncomment if want other than USD
+    # int_price=$(curl -m 0.5 -s "https://api.coindesk.com/v1/bpi/currentprice.json" | awk -F '\"code\":\"USD\"' '{print $2}' | awk -F 'rate_float\"\:' '{print $2}' | cut -d. -f1)
+    int_price=$(curl -m 0.5 -s "https://api.coindesk.com/v1/bpi/currentprice.json" | awk -F 'rate_float\"\:' '{print $2}' | cut -d. -f1)
 
-    if [ "$float_price" == "" ]; then
+    if [ "$int_price" == "" ]; then
         exit 0
     fi
 
-    int_price=$(echo "$float_price/1" | bc)
     int_price_k=$(echo "$int_price/1000" | bc)
 
     price_str='$'$int_price_k","$(expr $int_price - $(expr $int_price_k \* 1000))
