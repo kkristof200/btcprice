@@ -8,7 +8,12 @@ delete_cache() {
 }
 
 get_price_from_server() {
-    float_price=$(curl -s "https://api.coindesk.com/v1/bpi/currentprice.json" | jq '.bpi.USD.rate_float')
+    float_price=$(curl -m 1 -s "https://api.coindesk.com/v1/bpi/currentprice.json" | jq '.bpi.USD.rate_float')
+
+    if [ "$float_price" == "" ]; then
+        exit 0
+    fi
+
     int_price=$(echo "$float_price/1" | bc)
     int_price_k=$(echo "$int_price/1000" | bc)
 
@@ -20,17 +25,20 @@ get_price_from_server() {
     echo $price_str
 }
 
-# FLOW
-if [ -f "$CACHE_PATH" ]; then
-    # CACHE_PATH EXISTS
-    cache_age_seconds=$(expr $(date +"%s") - $(date -r $CACHE_PATH +"%s"))
+flow() {
+    if [ -f "$CACHE_PATH" ]; then
+        # CACHE_PATH EXISTS
+        cache_age_seconds=$(expr $(date +"%s") - $(date -r $CACHE_PATH +"%s"))
 
-    if [ "$cache_age_seconds" -gt "$MAX_CACHE_AGE_SECONDS" ]; then
-        delete_cache
-        get_price_from_server
+        if [ "$cache_age_seconds" -gt "$MAX_CACHE_AGE_SECONDS" ]; then
+            delete_cache
+            get_price_from_server
+        else
+            echo "$(cat $CACHE_PATH)"
+        fi
     else
-        echo "$(cat $CACHE_PATH)"
+        get_price_from_server
     fi
-else
-    get_price_from_server
-fi
+}
+
+flow
