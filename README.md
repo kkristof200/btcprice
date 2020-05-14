@@ -89,4 +89,3 @@ source ~/.p10k.zsh
 
 ## Dependencies
 - python (for btcprice)
-- jq (for btcpriceesh)
