@@ -44,7 +44,7 @@ btcprice -c ['USD', 'GBP' or 'EUR'] # defaults to 'USD'
 btcpricesh
 ~~~~
 
-## ADD TO POWERLEVEL10K AS PROMPT ELEMENT
+## ADD TO POWERLEVEL10K AS PROMPT ELEMENT (what is shown at every command on the right side)
 To set up iterm with p10k, follow this [tutorial](https://gist.github.com/kevin-smets/8568070)
 
 Open iterm and run
