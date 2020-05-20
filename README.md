@@ -32,10 +32,15 @@ sys     0m0.055s
 
 ## Install
 ~~~~shell
-# btcprice
-cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcprice && chmod u+x btcprice
-# btcpricesh
-cd /usr/local/bin && wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcpricesh && chmod u+x btcpricesh
+#### btcprice ####
+wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcprice -O /usr/local/bin/btcprice && chmod u+x /usr/local/bin/btcprice
+# or
+curl https://raw.githubusercontent.com/kkristof200/btcprice/master/btcprice > /usr/local/bin/btcprice && chmod u+x /usr/local/bin/btcprice
+
+#### btcpricesh ####
+wget https://raw.githubusercontent.com/kkristof200/btcprice/master/btcpricesh -O /usr/local/bin/btcpricesh && chmod u+x /usr/local/bin/btcpricesh
+# or
+curl https://raw.githubusercontent.com/kkristof200/btcprice/master/btcpricesh > /usr/local/bin/btcpricesh && chmod u+x /usr/local/bin/btcpricesh
 ~~~~
 
 ## Usage
