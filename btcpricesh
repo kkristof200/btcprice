@@ -28,8 +28,11 @@ get_price_from_server() {
     fi
 
     int_price_k=$(echo "$int_price/1000" | bc)
+    int_price_kt=$(expr $int_price_k \* 1000)
+    int_price_k_remaining=$(expr $int_price - $int_price_kt)
+    str_price_k_remaining_filled=$(printf "%03d" $int_price_k_remaining)
 
-    price_str='$'$int_price_k","$(expr $int_price - $(expr $int_price_k \* 1000))
+    price_str='$'$int_price_k","$str_price_k_remaining_filled
 
     touch $CACHE_PATH
     printf $price_str > $CACHE_PATH
