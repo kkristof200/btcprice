@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # IMPORTS
 from __future__ import print_function
-import json, os, time, argparse
+import json, os, time, argparse, sys
 
 try:
     # For Python 3.0 and later
@@ -28,9 +28,16 @@ def print_price(currency_symbol, price_str):
 
     exit(0)
 
+def contains_arg(arg):
+    for arg in sys.argv:
+        for sys_arg in sys.argv:
+            if arg.lower() == sys_arg.lower().strip('-'):
+                return True
+
 # READING ARGUMENTS
 parser = argparse.ArgumentParser()
 parser.add_argument('--currency', '-c', help="'USD', 'GBP' or 'EUR'", type=str, default='USD')
+parser.add_argument('--force', '-f', action='store_true')
 args = parser.parse_args()
 
 report_currency=args.currency.lower()
@@ -49,6 +56,9 @@ try:
     if not os.path.exists(cache_folder_path):
         os.makedirs(cache_folder_path)
 
+    if args.force and os.path.exists(cache_path):
+        os.remove(cache_path)
+
     if os.path.exists(cache_path) and int(time.time() - os.path.getmtime(cache_path)) < CACHE_EXPIRE_SECONDS:
         with open(cache_path, 'r') as f:
             print_price(report_currency_symbol, f.read())
@@ -59,5 +69,5 @@ try:
         f.write(price_str)
 
     print_price(report_currency_symbol, price_str)
-except Exception:
-    print('<ERROR>')
+except Exception as e:
+    print('<ERROR>', e)
