@@ -70,4 +70,4 @@ try:
 
     print_price(report_currency_symbol, price_str)
 except Exception as e:
-    print('<ERROR>', e)
+    print('<ERROR>')
