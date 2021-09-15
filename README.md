@@ -9,25 +9,25 @@ I strongly suggest btcpricesh over btcprice since it's way faster, but currently
 ~~~~
 # Download new data (this will vary depending on your internet speed)
 btcpricesh
-real    0m0.170s
-user    0m0.054s
-sys     0m0.036s
+real    0.170s
+user    0.054s
+sys     0.036s
 
 btcprice
-real    0m0.205s
-user    0m0.046s
-sys     0m0.054s
+real    0.205s
+user    0.046s
+sys     0.054s
 
 # Load from cache
 btcpricesh
-real    0m0.029s
-user    0m0.006s
-sys     0m0.016s
+real    0.029s
+user    0.006s
+sys     0.016s
 
 btcprice
-real    0m0.101s
-user    0m0.040s
-sys     0m0.055s
+real    0.101s
+user    0.040s
+sys     0.055s
 ~~~~
 
 ## Install
